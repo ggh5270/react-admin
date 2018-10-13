@@ -1,55 +1,54 @@
 /**
- * Created by hao.cheng on 2017/4/13.
+ * Created by GGH on 2018/10/13.
  */
 import React, { Component } from 'react';
 import { Menu, Icon, Layout, Badge, Popover } from 'antd';
 import screenfull from 'screenfull';
-import { gitOauthToken, gitOauthInfo } from '../axios';
-import { queryString } from '../utils';
+import { apiOauthData } from '../axios';
 import avater from '../style/imgs/b1.jpg';
 import SiderCustom from './SiderCustom';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import { fetchData, receiveData } from '@/action';
+import { bindActionCreators } from 'redux';
 const { Header } = Layout;
 const SubMenu = Menu.SubMenu;
 const MenuItemGroup = Menu.ItemGroup;
 
 class HeaderCustom extends Component {
     state = {
-        user: '',
+        accessToken: '',
         visible: false,
+        tokenData:'',
+        userInfo:[],
     };
     componentDidMount() {
-        const QueryString = queryString();
-        // if (QueryString.hasOwnProperty('code')) {
-        //     console.log(QueryString);
-        //     const _user = JSON.parse(localStorage.getItem('user'));
-        //     !_user && gitOauthToken(QueryString.code).then(res => {
-        //         console.log(res);
-        //         gitOauthInfo(res.access_token).then(info => {
-        //             this.setState({
-        //                 user: info
-        //             });
-        //             localStorage.setItem('user', JSON.stringify(info));
-        //         });
-        //     });
-        //     _user && this.setState({
-        //         user: _user
-        //     });
-        // }
-        const _user = JSON.parse(localStorage.getItem('user')) || '测试';
-        if (!_user && QueryString.hasOwnProperty('code')) {
-            gitOauthToken(QueryString.code).then(res => {
-                gitOauthInfo(res.access_token).then(info => {
-                    this.setState({
-                        user: info
-                    });
-                    localStorage.setItem('user', JSON.stringify(info));
+        const _token = JSON.parse(localStorage.getItem('token-locals'));
+        this.loginData(_token);
+    };
+    loginData = (token) =>{
+        if(token==null)
+        {
+            //token失效时，需要重新登陆
+            this.logout();
+        }
+        else{
+            apiOauthData(token.Entity).then(res => {
+                this.setState({
+                    accessToken: res
                 });
-            });
-        } else {
-            this.setState({
-                user: _user
+            
+                if(res == null)
+                {
+                    //token失效时，需要重新登陆
+                    this.logout();
+                }
+                else{ 
+                    localStorage.setItem('userInfo', JSON.stringify(res));
+                    this.setState({
+                        userInfo: JSON.stringify(res),
+                    });
+                }
             });
         }
     };
@@ -64,7 +63,8 @@ class HeaderCustom extends Component {
         e.key === 'logout' && this.logout();
     };
     logout = () => {
-        localStorage.removeItem('user');
+        localStorage.removeItem('token-locals');
+        localStorage.removeItem('userInfo');
         this.props.history.push('/login')
     };
     popoverHide = () => {
@@ -107,7 +107,7 @@ class HeaderCustom extends Component {
                     </Menu.Item>
                     <SubMenu title={<span className="avatar"><img src={avater} alt="头像" /><i className="on bottom b-white" /></span>}>
                         <MenuItemGroup title="用户中心">
-                            <Menu.Item key="setting:1">你好 - {this.props.user.userName}</Menu.Item>
+                            <Menu.Item key="setting:1">你好 - {this.state.token}</Menu.Item>
                             <Menu.Item key="setting:2">个人信息</Menu.Item>
                             <Menu.Item key="logout"><span onClick={this.logout}>退出登录</span></Menu.Item>
                         </MenuItemGroup>
@@ -128,9 +128,17 @@ class HeaderCustom extends Component {
     }
 }
 
+/**
+ * 获取当前浏览器宽度并设置responsive管理响应式，处理位置在App.js
+ * @param {} state 
+ */
 const mapStateToProps = state => {
-    const { responsive = {data: {}} } = state.httpData;
-    return {responsive};
+    const { responsive } = state.httpData;
+    return { responsive };
 };
+const mapDispatchToProps = dispatch => ({
+    fetchData: bindActionCreators(fetchData, dispatch),
+    receiveData: bindActionCreators(receiveData, dispatch)
+});
 
-export default withRouter(connect(mapStateToProps)(HeaderCustom));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(HeaderCustom));

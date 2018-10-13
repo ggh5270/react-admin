@@ -4,10 +4,10 @@
  */
 
 //easy-mock模拟数据接口地址
-const EASY_MOCK = 'http://localhost:1102';
+const EASY_MOCK = 'https://ggh5270.mynatapp.cc';
 export const MOCK_API = EASY_MOCK + '/api';
 export const MOCK_AUTH = EASY_MOCK + '/api/oauth2/token';  // 获取token接口地址
-export const MOCK_AUTH_ADMIN = MOCK_AUTH + '/admin';       // 管理员权限接口
+export const MOCK_AUTH_ADMIN = EASY_MOCK + '/api/oauth2/token';       // 管理员权限接口
 export const MOCK_AUTH_VISITOR = MOCK_AUTH + '/visitor';   // 访问权限接口
 
 

@@ -15,28 +15,32 @@ class App extends Component {
     };
     componentWillMount() {
         const { receiveData } = this.props;
-        const user = JSON.parse(localStorage.getItem('user'));
+        const user = JSON.parse(localStorage.getItem('token-locals'));
+
+         //没有登陆时跳转登陆
+         if(user===null)
+         {
+            this.props.history.push('/login');
+         }
         user && receiveData(user, 'auth');
-        // receiveData({a: 213}, 'auth');
-        // fetchData({funcName: 'admin', stateName: 'auth'});
+
         this.getClientWidth();
         window.onresize = () => {
             console.log('屏幕变化了');
             this.getClientWidth();
-            // console.log(document.body.clientWidth);
         }
     }
     componentDidMount() {
         const openNotification = () => {
             notification.open({
-              message: '博主-yezihaohao',
+              message: '欢迎，你好！',
               description: (
                   <div>
                       <p>
-                          GitHub地址： <a href="https://github.com/yezihaohao" target="_blank" rel="noopener noreferrer">https://github.com/yezihaohao</a>
+                          测试内容1： <a href="https://github.com/" target="_blank" rel="noopener noreferrer">测试</a>
                       </p>
                       <p>
-                          博客地址： <a href="https://yezihaohao.github.io/" target="_blank" rel="noopener noreferrer">https://yezihaohao.github.io/</a>
+                          测试内容2： <a href="http://www.163.com/" target="_blank" rel="noopener noreferrer">测试</a>
                       </p>
                   </div>
               ),
@@ -60,8 +64,6 @@ class App extends Component {
         });
     };
     render() {
-        // console.log(this.props.auth);
-        // console.log(this.props.responsive);
         const { auth, responsive } = this.props;
         return (
             <Layout>

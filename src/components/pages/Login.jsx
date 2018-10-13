@@ -6,20 +6,24 @@ import { Form, Icon, Input, Button, Checkbox, message } from 'antd';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { fetchData, receiveData } from '@/action';
-import { apiOauthInfo } from '../../axios';
 
 const FormItem = Form.Item;
 
 class Login extends React.Component {
+    //执行一次，在初始化render之前执行，如果在这个方法内调用setState，render()知道state发生变化，并且只执行一次
     componentWillMount() {
         const { receiveData } = this.props;
         receiveData(null, 'auth');
     }
+    //当props发生变化时执行，初始化render时不执行，在这个回调函数里面，你可以根据属性的变化，通过调用this.setState()来更新你的组件状态，旧的属性还是可以通过this.props来获取,这里调用更新状态是安全的，并不会触发额外的render调用
     componentWillReceiveProps(nextProps) {
         const { auth: nextAuth = {} } = nextProps;
         const { history } = this.props;
-        if (nextAuth.data && nextAuth.data.uid) {   // 判断是否登陆
-            localStorage.setItem('user', JSON.stringify(nextAuth.data));
+
+        if (nextAuth.data && nextAuth.data.IsSucceed === true) {   // 判断是否登陆
+            localStorage.removeItem('token-locals');
+            localStorage.setItem('token-locals', JSON.stringify(nextAuth.data));
+            // localStorage.setItem('valTime', Date);
             history.push('/');
         }
     }
@@ -27,21 +31,25 @@ class Login extends React.Component {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
             if (!err) {
-                const result=apiOauthInfo({"requestData":{"UserName":""+values.userName+"","Password":""+values.password+""}});
-                result.then(function (resout) {
-                    if(resout.IsSucceed===false)
-                    {
-                        message.warn("用户名或密码错误，请重新登陆！")
-                    }
-                    else{
-                        localStorage.setItem("objLogin",resout);
-                    }
-                })
+                const { fetchData } = this.props;
+                fetchData({funcName: 'apiOauthInfo', params: {"requestData":{"LoginId":""+values.userName+"","Password":""+values.password+"","OpenId":"","UnionId":"","PlatformType":1}}, stateName: 'auth'});
+                
+                // const result=apiOauthInfo({"requestData":{"UserName":""+values.userName+"","Password":""+values.password+""}});
+        
+                // result.then(function (resout) {
+                //     if(resout.IsSucceed===false)
+                //     {
+                //         message.warn("用户名或密码错误，请重新登陆！")
+                //     }
+                //     else{
+                //         fetchData({funcName: ''+values.userName+'', stateName: 'auth'});
+                //     }
+                // })
             }
         });
     };
     gitHub = () => {
-        // window.location.href = 'https://github.com/login/oauth/authorize?client_id=792cdcd244e98dcd2dee&redirect_uri=http://localhost:3006/&scope=user&state=reactAdmin';
+        message.warn('第三方授权登录暂不开放');
     };
     render() {
         const { getFieldDecorator } = this.props.form;
@@ -49,21 +57,21 @@ class Login extends React.Component {
             <div className="login">
                 <div className="login-form" >
                     <div className="login-logo">
-                        <span>React Admin</span>
+                        <span>Locals路客筹建管理平台</span>
                     </div>
                     <Form onSubmit={this.handleSubmit} style={{maxWidth: '300px'}}>
                         <FormItem>
                             {getFieldDecorator('userName', {
                                 rules: [{ required: true, message: '请输入用户名!' }],
                             })(
-                                <Input prefix={<Icon type="user" style={{ fontSize: 13 }} />} placeholder="管理员输入admin, 游客输入guest" />
+                                <Input prefix={<Icon type="user" style={{ fontSize: 13 }} />} placeholder="请输入用户名" />
                             )}
                         </FormItem>
                         <FormItem>
                             {getFieldDecorator('password', {
                                 rules: [{ required: true, message: '请输入密码!' }],
                             })(
-                                <Input prefix={<Icon type="lock" style={{ fontSize: 13 }} />} type="password" placeholder="管理员输入admin, 游客输入guest" />
+                                <Input prefix={<Icon type="lock" style={{ fontSize: 13 }} />} type="password" placeholder="请输入密码" />
                             )}
                         </FormItem>
                         <FormItem>

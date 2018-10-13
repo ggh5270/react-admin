@@ -1,11 +1,12 @@
 /**
- * Created by hao.cheng on 2017/4/16.
+ * Created by ggh on 2018/4/30.
  */
 import React from 'react';
-import { Form, Icon, Input, Button, Checkbox } from 'antd';
+import { Form, Icon, Input, Button, Checkbox, message } from 'antd';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { fetchData, receiveData } from '@/action';
+import { apiOauthInfo } from '../../axios';
 
 const FormItem = Form.Item;
 
@@ -26,15 +27,21 @@ class Login extends React.Component {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
             if (!err) {
-                console.log('Received values of form: ', values);
-                const { fetchData } = this.props;
-                if (values.userName === 'admin' && values.password === 'admin') fetchData({funcName: 'admin', stateName: 'auth'});
-                if (values.userName === 'guest' && values.password === 'guest') fetchData({funcName: 'guest', stateName: 'auth'});
+                const result=apiOauthInfo({"requestData":{"UserName":""+values.userName+"","Password":""+values.password+""}});
+                result.then(function (resout) {
+                    if(resout.IsSucceed===false)
+                    {
+                        message.warn("用户名或密码错误，请重新登陆！")
+                    }
+                    else{
+                        localStorage.setItem("objLogin",resout);
+                    }
+                })
             }
         });
     };
     gitHub = () => {
-        window.location.href = 'https://github.com/login/oauth/authorize?client_id=792cdcd244e98dcd2dee&redirect_uri=http://localhost:3006/&scope=user&state=reactAdmin';
+        // window.location.href = 'https://github.com/login/oauth/authorize?client_id=792cdcd244e98dcd2dee&redirect_uri=http://localhost:3006/&scope=user&state=reactAdmin';
     };
     render() {
         const { getFieldDecorator } = this.props.form;

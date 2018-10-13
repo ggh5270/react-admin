@@ -1,5 +1,5 @@
 /**
- * Created by hao.cheng on 2017/4/14.
+ * Created by ggh on 2018/4/30.
  */
 import React, { Component } from 'react';
 import { Form, Icon, Input, Button, Checkbox } from 'antd';
@@ -10,6 +10,7 @@ class NormalLoginForm extends Component {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
             if (!err) {
+                console.log(values)
                 console.log('Received values of form: ', values);
             }
         });

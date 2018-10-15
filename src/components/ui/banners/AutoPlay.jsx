@@ -1,5 +1,5 @@
 /**
- * Created by hao.cheng on 2017/4/26.
+ * Created by ggh on 2018/10/15.
  */
 import React from 'react';
 import BannerAnim, { Element } from 'rc-banner-anim';

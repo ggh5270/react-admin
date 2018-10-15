@@ -74,7 +74,7 @@ class App extends Component {
                         <Routes auth={auth} />
                     </Content>
                     <Footer style={{ textAlign: 'center' }}>
-                    React-Admin ©2018 Created by ggh5270@163.com
+                    Locals ©2018 Created by 北京路客互联网科技有限公司
                     </Footer>
                 </Layout>
                 

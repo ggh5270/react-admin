@@ -1,5 +1,5 @@
 /**
- * Created by 叶子 on 2017/8/13.
+ * Created by ggh on 2018/10/15.
  */
 import React, { Component } from 'react';
 // import { Router, Route, hashHistory, IndexRedirect } from 'react-router';
@@ -9,8 +9,8 @@ import Wysiwyg from 'bundle-loader?lazy!../components/ui/Wysiwyg';  // 按需加
 import Bundle from '../components/widget/Bundle';
 
 import ArticleList from '../pages/business/article/article-lists';
-import UserList from '../pages/system/user/user-lists';
-import DictionaryList from '../pages/system/dictionary/dictionary-lists';
+import UserList from '../pages/plf/user/user-list';
+import DictionaryList from '../pages/plf/param/custom/dictionary-lists';
 
 const WysiwygBundle = (props) => (
     <Bundle load={Wysiwyg}>
@@ -32,8 +32,8 @@ export default class CRouter extends Component {
                 <Route exact path="/app/dashboard/index" component={Dashboard} />
                 <Route exact path="/app/business/article-lists" component={ArticleList} />
 
-                <Route exact path="/app/system/user-lists" component={UserList} />
-                <Route exact path="/app/system/dictionary-lists" component={DictionaryList} />
+                <Route exact path="/app/plf/user/user-list" component={UserList} />
+                <Route exact path="/app/plf/security/permis-list" component={DictionaryList} />
                 <Route render={() => <Redirect to="/404" />} />
             </Switch>
         )

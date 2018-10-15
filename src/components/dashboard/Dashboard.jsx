@@ -1,5 +1,5 @@
 /**
- * Created by hao.cheng on 2017/5/3.
+ * Created by ggh on 2018/10/15.
  */
 import React from 'react';
 import { Row, Col, Card, Timeline, Icon } from 'antd';
@@ -118,8 +118,8 @@ class Dashboard extends React.Component {
                                             <img src={b1} className="img-responsive img-circle" alt="test" />
                                         </a>
                                         <div className="clear">
-                                            <a href="" className="block">鸣人</a>
-                                            <span className="text-muted">终于当上火影了！</span>
+                                            <a href="" className="block">猪江新城</a>
+                                            <span className="text-muted">筹建开始</span>
                                         </div>
                                     </li>
                                     <li className="list-group-item">
@@ -127,8 +127,8 @@ class Dashboard extends React.Component {
                                             <img src={b1} className="img-responsive img-circle" alt="test" />
                                         </a>
                                         <div className="clear">
-                                            <a href="" className="block">佐助</a>
-                                            <span className="text-muted">吊车尾~~</span>
+                                            <a href="" className="block">琶洲展馆</a>
+                                            <span className="text-muted">已完工</span>
                                         </div>
                                     </li>
                                     <li className="list-group-item">
@@ -136,8 +136,8 @@ class Dashboard extends React.Component {
                                             <img src={b1} className="img-responsive img-circle" alt="test" />
                                         </a>
                                         <div className="clear">
-                                            <a href="" className="block">小樱</a>
-                                            <span className="text-muted">佐助，你好帅！</span>
+                                            <a href="" className="block">广州塔</a>
+                                            <span className="text-muted">快了！快了！</span>
                                         </div>
                                     </li>
                                     <li className="list-group-item">
@@ -145,8 +145,8 @@ class Dashboard extends React.Component {
                                             <img src={b1} className="img-responsive img-circle" alt="test" />
                                         </a>
                                         <div className="clear">
-                                            <a href="" className="block">雏田</a>
-                                            <span className="text-muted">鸣人君。。。那个。。。我。。喜欢你..</span>
+                                            <a href="" className="block">广州西塔</a>
+                                            <span className="text-muted">项目已取消</span>
                                         </div>
                                     </li>
                                 </ul>

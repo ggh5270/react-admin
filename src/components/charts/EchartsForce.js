@@ -1,5 +1,5 @@
 /**
- * Created by SEELE on 2017/8/23.
+ * Created by ggh on 2018/10/15.
  */
 import React, { Component } from 'react';
 import ReactEcharts from 'echarts-for-react';

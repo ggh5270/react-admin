@@ -43,7 +43,7 @@ export const apiOauthData = () =>
  * @param msg       接口异常提示
  * @param headers   接口所需header配置
  */
-export const getData = ({url, msg = '接口异常'}) => get({url: config.MOCK_API + url, msg:msg,headers:{headers:{'Content-Type':'application/json; charset=utf-8;','Authorization':JSON.parse(localStorage.getItem('token-locals')).Entity}}});
+export const getData = ({url, msg = '接口异常'}) => get({url: config.MOCK_API + url, msg:msg,headers:{headers:{'Content-Type':'application/json; charset=utf-8;','Authorization':JSON.parse(localStorage.getItem('token-locals'))}}});
 
 /**
  * 公用post请求
@@ -52,4 +52,4 @@ export const getData = ({url, msg = '接口异常'}) => get({url: config.MOCK_AP
  * @param msg       接口异常提示
  * @param headers   接口所需header配置
  */
-export const postData = ({url, data, msg = '接口异常'}) => post({url:config.MOCK_API + url, data:data,msg:msg,headers:{headers: {'Content-Type': 'application/json; charset=utf-8;','Authorization':JSON.parse(localStorage.getItem('token-locals')).Entity}}});
+export const postData = ({url, data, msg = '接口异常'}) => post({url:config.MOCK_API + url, data:data,msg:msg,headers:{headers: {'Content-Type': 'application/json; charset=utf-8;','Authorization':JSON.parse(localStorage.getItem('token-locals'))}}});

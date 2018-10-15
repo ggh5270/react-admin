@@ -1,5 +1,5 @@
 /**
- * Created by ggh on 2018/4/30.
+ * Created by ggh on 2018/10/12.
  */
 import React from 'react';
 import { Form, Icon, Input, Button, Checkbox, message } from 'antd';
@@ -22,7 +22,7 @@ class Login extends React.Component {
 
         if (nextAuth.data && nextAuth.data.IsSucceed === true) {   // 判断是否登陆
             localStorage.removeItem('token-locals');
-            localStorage.setItem('token-locals', JSON.stringify(nextAuth.data));
+            localStorage.setItem('token-locals', JSON.stringify(nextAuth.data.Entity));
             // localStorage.setItem('valTime', Date);
             history.push('/');
         }
@@ -32,19 +32,18 @@ class Login extends React.Component {
         this.props.form.validateFields((err, values) => {
             if (!err) {
                 const { fetchData } = this.props;
-                fetchData({funcName: 'apiOauthInfo', params: {"requestData":{"LoginId":""+values.userName+"","Password":""+values.password+"","OpenId":"","UnionId":"","PlatformType":1}}, stateName: 'auth'});
-                
-                // const result=apiOauthInfo({"requestData":{"UserName":""+values.userName+"","Password":""+values.password+""}});
-        
-                // result.then(function (resout) {
-                //     if(resout.IsSucceed===false)
-                //     {
-                //         message.warn("用户名或密码错误，请重新登陆！")
-                //     }
-                //     else{
-                //         fetchData({funcName: ''+values.userName+'', stateName: 'auth'});
-                //     }
-                // })
+                fetchData({funcName: 'apiOauthInfo', params: {"requestData":{"LoginId":""+values.userName+"","Password":""+values.password+"","OpenId":"","UnionId":"","PlatformType":1}}, stateName: 'auth'})
+                .then(function (resout) {
+                    console.log(resout)
+                    if(resout.data.IsSucceed===false && resout.data.Message==="Invalid authentication credentials")
+                    {
+                        message.warn("用户名或密码错误，请重新登陆！");
+                    }
+                    else if(resout.data.IsSucceed===false)
+                    {
+                        message.warn("登陆出现异常，请联系管理员处理！");
+                    }
+                })
             }
         });
     };

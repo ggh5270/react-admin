@@ -1,5 +1,5 @@
 /**
- * Created by hao.cheng on 2017/5/7.
+ * Created by ggh on 2018/10/15.
  */
 import React from 'react';
 import img from '../../style/imgs/404.png';
